@@ -1,11 +1,44 @@
-let commander = require('commander')
+const fs = require('fs')
+const path = require('path')
+const package = require('../package.json')
+const commander = require('commander')
+const parse = require('./parser')
+const convert = require('./converter')
+const write = require('./writer')
 
-let a2plc = () => {
+const a2plc = () => {
   commander
     .arguments('<file>')
-    .version('0.0.0')
+    .option('-f, --folder', 'Batch convert all files in the folder to a single property file.')
+    // TODO: Can be unsafe on server related scenarios. Find a more general way,
+    // see: https://stackoverflow.com/questions/9153571/is-there-a-way-to-get-version-from-package-json-in-nodejs-code
+    .version(package.version)
     .action((file) => {
-      console.log('starting!')
+      console.log('Starting!')
+
+      if (commander.folder) {
+        const folder = file
+        const parses = []
+        fs.readdir(folder, (err, files) => {
+          files.forEach(file => {
+            if(path.extname(file) === ".xml") {
+              parses.push(parse(`${folder}/${file}`))
+            }
+          })
+
+          Promise.all(parses).then(result => {
+            let data = result.reduce((acc, curr) => {
+              return acc.concat(curr.resources.string)
+            }, [])
+            write('converted-localization.txt', convert(data), () => console.log('Done!'))
+          })
+        })
+      } else {
+        parse(file).then(result => {
+          write(file, convert(result.resources.string), () => console.log('Done!'))
+        }, () => {})
+      }
+
     })
     .parse(process.argv)
 }
