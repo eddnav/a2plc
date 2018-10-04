@@ -36,11 +36,13 @@ const a2plc = () => {
           })
         })
       } else {
-        parse(file).then(result => {
-          write(file, convert(result.resources.string), () => console.log('Done!'))
-        }, err => {
-          console.log(err)
-        })
+        if(path.extname(file) === ".xml") {
+          parse(file).then(result => {
+            write(file, convert(result.resources.string), () => console.log('Done!'))
+          }, err => {
+            console.log(err)
+          })  
+        }
       }
 
     })
