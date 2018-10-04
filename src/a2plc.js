@@ -31,12 +31,16 @@ const a2plc = () => {
               return acc.concat(curr.resources.string)
             }, [])
             write('converted-localization.txt', convert(data), () => console.log('Done!'))
+          }, err => {
+            console.log(err)
           })
         })
       } else {
         parse(file).then(result => {
           write(file, convert(result.resources.string), () => console.log('Done!'))
-        }, () => {})
+        }, err => {
+          console.log(err)
+        })
       }
 
     })
