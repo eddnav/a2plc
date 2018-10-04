@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "A command line tool for converting Android XML string files to Property files.",
   "main": "index.js",
-  "author": "",
+  "repository": { "type": "git", "url": "https://github.com/eddnav/a2plc" },
+  "author": "Eduardo Naveda",
   "license": "ISC",
   "bin": {
     "a2plc": "./index.js"
