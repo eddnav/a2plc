@@ -5,16 +5,16 @@ Simple tool that transforms Android string XML files to Property files, hence th
 
 # Installation
 
----
+```
 $ npm i -g a2plc
----
+```
 
 # Usage
 
----
+```
 // Single files
 $ a2plc filename
 
 // Folder
 $ a2plc filename -f
----
+```
