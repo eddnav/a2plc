@@ -6,7 +6,7 @@ Simple tool that transforms Android string XML files to Property files, hence th
 # Installation
 
 ```
-$ npm i -g a2plc
+$ npm i a2plc -g
 ```
 
 # Usage
