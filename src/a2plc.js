@@ -22,8 +22,12 @@ const a2plc = () => {
         const folder = file
         const parses = []
         fs.readdir(folder, (err, files) => {
+          if (!files) {
+            console.log(`${folder} is not a folder.`)
+            return
+          }
           files.forEach(file => {
-            if(path.extname(file) === ".xml") {
+            if(path.extname(file) === '.xml') {
               parses.push(parse(`${folder}/${file}`))
             }
           })
@@ -42,7 +46,7 @@ const a2plc = () => {
           })
         })
       } else {
-        if(path.extname(file) === ".xml") {
+        if(path.extname(file) === '.xml') {
           parse(file).then(result => {
             write(file, convert({ string: result.resources.string || [], plurals: result.resources.plurals || [], stringArray: result.resources['string-array'] || [] }), () => console.log('Done!'))
           }, err => {
