@@ -11,6 +11,7 @@ const a2plc = () => {
   commander
     .arguments('<file>')
     .option('-f, --folder', 'Batch convert all files in the folder to a single property file.')
+    .option('-o, --out <out>', 'Name for the output file')
     // TODO: Can be unsafe on server related scenarios. Find a more general way,
     // see: https://stackoverflow.com/questions/9153571/is-there-a-way-to-get-version-from-package-json-in-nodejs-code
     .version(package.version)
@@ -35,7 +36,7 @@ const a2plc = () => {
                 stringArray: curr.resources['string-array'] ? acc.stringArray.concat(curr.resources['string-array']) : acc.stringArray
               }
             }, { string: [], plurals: [], stringArray: [] })
-            write('converted-localization.txt', convert((data)), () => console.log('Done!'))
+            write(commander.out || 'converted-localization.txt', convert((data)), () => console.log('Done!'))
           }, err => {
             console.log(err)
           })
