@@ -6,6 +6,7 @@ const parse = require('./parser')
 const convert = require('./converter')
 const write = require('./writer')
 
+
 const a2plc = () => {
   commander
     .arguments('<file>')
@@ -28,9 +29,13 @@ const a2plc = () => {
 
           Promise.all(parses).then(result => {
             let data = result.reduce((acc, curr) => {
-              return acc.concat(curr.resources.string)
-            }, [])
-            write('converted-localization.txt', convert(data), () => console.log('Done!'))
+              return {
+                string: curr.resources.string ? acc.string.concat(curr.resources.string) : acc.string,
+                plurals: curr.resources.plurals ? acc.plurals.concat(curr.resources.plurals) : acc.plurals,
+                stringArray: curr.resources['string-array'] ? acc.stringArray.concat(curr.resources['string-array']) : acc.stringArray
+              }
+            }, { string: [], plurals: [], stringArray: [] })
+            write('converted-localization.txt', convert((data)), () => console.log('Done!'))
           }, err => {
             console.log(err)
           })
@@ -38,10 +43,10 @@ const a2plc = () => {
       } else {
         if(path.extname(file) === ".xml") {
           parse(file).then(result => {
-            write(file, convert(result.resources.string), () => console.log('Done!'))
+            write(file, convert({ string: result.resources.string || [], plurals: result.resources.plurals || [], stringArray: result.resources['string-array'] || [] }), () => console.log('Done!'))
           }, err => {
             console.log(err)
-          })  
+          })
         }
       }
 
