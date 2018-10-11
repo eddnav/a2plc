@@ -12,8 +12,9 @@ const a2plc = () => {
     .arguments('<file>')
     .option('-f, --folder', 'Batch convert all files in the folder to a single property file.')
     .option('-o, --out <out>', 'Name for the output file')
-    // TODO: Can be unsafe on server related scenarios. Find a more general way,
-    // see: https://stackoverflow.com/questions/9153571/is-there-a-way-to-get-version-from-package-json-in-nodejs-code
+    // WARNING: Can be unsafe on server related scenarios. Find a more general way,
+    // see: https://stackoverflow.com/questions/9153571/is-there-a-way-to-get-version-from-package-json-in-nodejs-code.
+    // Not worth it at the moment to add a build system just to work around this.
     .version(package.version)
     .action((file) => {
       console.log('Starting!')
