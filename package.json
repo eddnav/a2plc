@@ -1,6 +1,6 @@
 {
   "name": "a2plc",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A command line tool for converting Android XML string files to Property files.",
   "main": "index.js",
   "repository": {
