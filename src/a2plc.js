@@ -1,21 +1,20 @@
+require('pkginfo')(module, 'version')
+
 const fs = require('fs')
 const path = require('path')
-const package = require('../package.json')
 const commander = require('commander')
 const parse = require('./parser')
 const convert = require('./converter')
 const write = require('./writer')
 
+const version = module.exports.version
 
 const a2plc = () => {
   commander
     .arguments('<file>')
     .option('-f, --folder', 'Batch convert all files in the folder to a single property file.')
     .option('-o, --out <out>', 'Name for the output file')
-    // WARNING: Can be unsafe on server related scenarios. Find a more general way,
-    // see: https://stackoverflow.com/questions/9153571/is-there-a-way-to-get-version-from-package-json-in-nodejs-code.
-    // Not worth it at the moment to add a build system just to work around this.
-    .version(package.version)
+    .version(version)
     .action((file) => {
       console.log('Starting!')
 
